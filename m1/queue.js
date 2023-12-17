@@ -1,9 +1,9 @@
 const amqplib = require("amqplib");
 
 const RABBITMQ_VARIABLES = {
-  connection_url: process.env.NODE_ENV === 'production' ? "" : "amqp://localhost",
+  connection_url: process.env.NODE_ENV === 'production' ? process.env.RABBITMQ_URL : "amqp://localhost",
   queueName: {
-    INCOMING: "incoming-hook",
+    REQUEST: "request-hook",
     RESULT: "result-hook"
   },
 };
@@ -14,7 +14,7 @@ const InitQueue = async () => {
   const channel = await connection.createChannel();
   console.log('Connected to RabbitMQ');
 
-  const queueName = RABBITMQ_VARIABLES.queueName.INCOMING;
+  const queueName = RABBITMQ_VARIABLES.queueName.REQUEST;
 
   await channel.assertQueue(queueName, { durable: true });
   await channel.assertQueue(RABBITMQ_VARIABLES.queueName.RESULT, { durable: true });

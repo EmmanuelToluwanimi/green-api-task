@@ -8,7 +8,7 @@ async function ProcessTask() {
   const queue = await InitQueue();
 
   // Consumes 
-  queue.channel.consume(RABBITMQ_VARIABLES.queueName.INCOMING, (message) => {
+  queue.channel.consume(RABBITMQ_VARIABLES.queueName.REQUEST, (message) => {
     const data = JSON.parse(message.content.toString());
     const result = data * 2;
 
